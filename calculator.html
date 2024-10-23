@@ -1,0 +1,280 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<body>
+<div class="container">
+    <div class="top-row">
+        <div class="number">
+            0
+        </div>
+    </div>
+
+    <div class="clear button">
+        C
+    </div>
+
+    <div class="second-row button backspace">
+        ←
+    </div>
+
+    <div class="second-row button operator divide">
+        ÷
+    </div>
+
+    <div class="second-row button numberCheck">
+        7
+    </div>
+
+    <div class="second-row button numberCheck">
+        8
+    </div>
+
+    <div class="second-row button numberCheck">
+        9
+    </div>
+
+    <div class="second-row button operator multiply">
+        x
+    </div>
+    
+    <div class="second-row button numberCheck">
+        4
+    </div>
+
+    <div class="second-row button numberCheck">
+        5
+    </div>
+
+    <div class="second-row button numberCheck">
+        6
+    </div>
+
+    <div class="second-row button operator minus">
+        -
+    </div>
+
+    <div class="second-row button numberCheck">
+        1
+    </div>
+
+    <div class="second-row button numberCheck">
+        2
+    </div>
+
+    <div class="second-row button numberCheck">
+        3
+    </div>
+
+    <div class="second-row button operator plus">
+        +
+    </div>
+
+    <div class="second-row button operator equals">
+        =
+    </div>
+
+    <div class="zero button numberCheck">
+        0
+    </div>
+
+</div>
+</body>
+
+<style>
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size:2.75rem;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+
+.number {
+    display:flex;
+    justify-content:right;
+    align-items:center;
+    color:white;
+    text-align:right;
+    height:100%;
+}
+
+.container {
+    display:grid;
+    grid-template-rows:0.7fr 0.9fr 0.9fr 0.9fr 0.9fr 0.9fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width:525px;
+    height:750px;
+    background-color:black;
+    gap:2px;
+}
+
+.top-row {
+    grid-column-start:1;
+    grid-column-end:5;
+}
+
+.clear {
+    grid-column-start:1;
+    grid-column-end:3;
+    grid-row-start:2;
+}
+
+.zero {
+    grid-column-start:1;
+    grid-column-end:4;
+    grid-row-start:6;
+}
+
+.button {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color:rgb(247, 245, 255);
+    margin:0;
+    border:none;
+    padding:0;
+    cursor:pointer;
+}
+
+.button:hover {
+    background-color:rgb(252, 251, 255);
+}
+
+.button.operator:hover {
+    background-color:rgb(255, 176, 103);
+}
+
+.operator {
+    color:white;
+    background-color:rgb(255, 165, 82);
+}
+
+
+
+</style>
+
+<script>
+let numbers = [];
+let operator;
+let finalValue = "";
+let displayValue ="";
+
+document.querySelector(".plus").addEventListener("click", Add);
+document.querySelector(".equals").addEventListener("click", Equals);
+document.querySelector(".multiply").addEventListener("click", Multiply);
+document.querySelector(".minus").addEventListener("click", Minus);
+document.querySelector(".divide").addEventListener("click", Divide)
+document.querySelector(".clear").addEventListener("click", Clear)
+document.querySelector(".backspace").addEventListener("click", Backspace)
+
+function Clear() {
+    numbers = [];
+    operator = "";
+    finalValue = 0;
+    displayValue = 0;
+    value = 0;
+    document.querySelector(".number").innerHTML = "";
+}
+
+function operatorSelection(){
+    return document.querySelector(".number").innerHTML = '';
+}
+
+const anchors = document.querySelectorAll(".numberCheck")
+    for (let i = 0; i < anchors.length; i++) {
+        anchors[i].addEventListener("click", selection);
+    }
+
+function selection() {
+    if (finalValue === 0) {
+        finalValue = ""
+    }
+
+    displayValue = this.innerHTML.trim();
+    document.querySelector(".number").innerHTML = displayValue;
+    finalValue += displayValue;
+    document.querySelector(".number").innerHTML = finalValue;
+    return finalValue;
+}
+
+function valuePusher(){
+    let number = parseFloat(finalValue);
+    numbers.push(number)
+
+    if (numbers.length > 2) {
+        numbers.shift()
+    }
+
+    finalValue = 0;
+    displayValue = 0;
+}
+
+function Backspace(){
+
+        console.log("hello")
+        let tempValue = String(finalValue);
+        console.log(tempValue)
+        finalValue = tempValue.substring(0, tempValue.length - 1)
+        console.log(finalValue)
+        document.querySelector(".number").innerHTML = finalValue;
+
+}
+
+function Add() {
+    operatorSelection();
+    valuePusher();
+    operator = "+";
+}
+
+function Multiply(){
+    operatorSelection();
+    valuePusher();
+    operator = "*";
+}
+
+function Minus() {
+    operatorSelection();
+    valuePusher();
+    operator = "-";
+}
+
+function Divide() {
+    operatorSelection();
+    valuePusher();
+    operator = "/";
+}
+
+function AllCalculations(number1, number2, operator) {
+    switch(operator) {
+        case "+":
+            return (number1 + number2)
+        case "*":
+            return (number1 * number2)
+        case "-":
+            return (number1 - number2)
+        case "/":
+            return (number1 / number2)
+    }
+
+}
+
+function Equals() {
+    valuePusher()
+    let value = AllCalculations(numbers[0], numbers[1], operator);
+    finalValue = value;
+    document.querySelector('.number').innerHTML = value;
+}
+
+
+
+
+
+</script>
